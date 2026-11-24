@@ -5,14 +5,6 @@ import { ShieldCheck, Radar, Truck, Info } from "lucide-react"
 export function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="dark relative min-h-screen overflow-hidden bg-zinc-950 text-white">
-      <svg className="absolute size-0" aria-hidden="true">
-        <defs>
-          <filter id="routewys-dark-logo" colorInterpolationFilters="sRGB">
-            <feColorMatrix type="matrix" values="1 0 1.45 0 0  0 1 1.42 0 0  0 0 2.18 0 0  0 0 0 1 0" />
-          </filter>
-        </defs>
-      </svg>
-
       {/* Full-bleed background video (poster image for slow loads / reduced motion) */}
       <Image src="/vehicles/mcv.jpg" alt="" fill priority sizes="100vw" className="object-cover" />
       <video
@@ -33,7 +25,7 @@ export function AuthLayout({ children }: { children: React.ReactNode }) {
 
       <div className="relative mx-auto grid min-h-screen max-w-[1600px] items-center gap-10 px-6 py-10 sm:px-10 lg:grid-cols-[1.2fr_minmax(0,28rem)] lg:px-16">
         <div className="hidden h-full flex-col justify-between py-4 lg:flex">
-          <Image src="/routewys-logo.webp" alt="RouteWyse" width={640} height={163} unoptimized className="h-auto w-52 [filter:url(#routewys-dark-logo)]" />
+          <Image src="/routewys-logo.webp" alt="RouteWyse" width={2124} height={486} unoptimized className="h-auto w-60" />
           <div>
             <h2 className="max-w-xl text-5xl font-semibold leading-[1.1] tracking-tight">
               Plan tomorrow&apos;s dispatch in <span className="text-orange-500">minutes,</span> not hours.
@@ -54,7 +46,7 @@ export function AuthLayout({ children }: { children: React.ReactNode }) {
         </div>
 
         <div className="w-full rounded-2xl border border-white/10 bg-zinc-950/60 p-8 shadow-2xl backdrop-blur-xl lg:justify-self-end">
-          <Image src="/routewys-logo.webp" alt="RouteWyse" width={640} height={163} unoptimized className="mb-8 h-auto w-44 [filter:url(#routewys-dark-logo)] lg:hidden" />
+          <Image src="/routewys-logo.webp" alt="RouteWyse" width={2124} height={486} unoptimized className="mb-8 h-auto w-48 lg:hidden" />
           {children}
         </div>
       </div>

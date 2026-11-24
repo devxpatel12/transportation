@@ -30,7 +30,7 @@ const NAV = [
 function Brand() {
   return (
     <Link href="/" className="routewise-brand" aria-label="RouteWyse home">
-      <Image src="/routewys-logo.webp" alt="" width={640} height={163} unoptimized />
+      <Image src="/routewys-logo.webp" alt="" width={2124} height={486} unoptimized />
     </Link>
   )
 }
@@ -98,13 +98,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="routewise-shell">
-      <svg className="absolute size-0" aria-hidden="true">
-        <defs>
-          <filter id="routewys-dark-logo" colorInterpolationFilters="sRGB">
-            <feColorMatrix type="matrix" values="1 0 1.45 0 0  0 1 1.42 0 0  0 0 2.18 0 0  0 0 0 1 0" />
-          </filter>
-        </defs>
-      </svg>
       <a className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-lg focus:bg-card focus:p-3" href="#main-content">Skip to content</a>
       <aside className="routewise-sidebar">
         <Brand />

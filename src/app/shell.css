@@ -58,7 +58,6 @@
   display: block;
   width: 100%;
   height: auto;
-  filter: url(#routewys-dark-logo);
 }
 
 .routewise-sidebar-footer small {
