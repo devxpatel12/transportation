@@ -108,3 +108,21 @@
   .dlv-bottom { grid-template-columns: 22rem minmax(0, 1fr); }
 }
 @media (min-width: 80rem) { .dlv-hero { grid-template-columns: 20rem minmax(0, 1fr) 16rem; } }
+
+
+/* Keep the restored deliveries artwork fully visible and reserve space
+   for independently scrolling shipment panes on desktop. */
+.delivery-workspace > .page-hero {
+  flex-shrink: 0;
+}
+.delivery-workspace > .page-hero[data-page-photo="deliveries"]::before {
+  width: min(52%, 40rem);
+  background-size: contain;
+  background-position: right center;
+  opacity: .95;
+}
+@media (max-width: 46rem) {
+  .delivery-workspace > .page-hero[data-page-photo="deliveries"]::before {
+    opacity: .32;
+  }
+}

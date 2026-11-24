@@ -7,6 +7,7 @@ export type Ownership = "Company" | "Market"
 export type VehicleTypeName = "Ace 1T" | "LCV 3T" | "ICV 6T" | "HCV 10T" | "MCV 16T"
 
 export const PLAN_DATE = "2026-11-20"
+export const DEMO_TRACKING_HOUR = 11.5 // 11:30 on the sample planning date
 export const DISPATCH_HOUR = 6 // default dispatch 06:00 on plan date
 
 export interface ShippingPoint {
@@ -365,6 +366,16 @@ const vehicleSeed: V[] = [
   ["TS-07-MK-7032", "Market", "ICV 6T", "HYD-01", 7, "Available", undefined, ["Telangana", "Andhra Pradesh"]],
   ["MH-12-MK-8041", "Market", "HCV 10T", "PNQ-01", 7, "Available", undefined, ["Maharashtra", "Karnataka"]],
   ["MH-12-MK-8042", "Market", "LCV 3T", "PNQ-01", 7],
+  // Additional fictional company vehicles: 27 company-owned in the demo fleet.
+  ["KA-53-DM-2101", "Company", "HCV 10T", "BLR-01", 6],
+  ["KA-53-DM-2102", "Company", "MCV 16T", "BLR-01", 6],
+  ["KA-53-DM-2103", "Company", "LCV 3T", "BLR-01", 7],
+  ["TN-22-DM-2104", "Company", "ICV 6T", "MAA-01", 6],
+  ["TN-22-DM-2105", "Company", "HCV 10T", "MAA-01", 6],
+  ["TS-07-DM-2106", "Company", "MCV 16T", "HYD-01", 6],
+  ["TS-07-DM-2107", "Company", "ICV 6T", "HYD-01", 7],
+  ["MH-12-DM-2108", "Company", "HCV 10T", "PNQ-01", 6],
+  ["MH-12-DM-2109", "Company", "ICV 6T", "PNQ-01", 6, "Unavailable", "Scheduled preventive maintenance"],
 ]
 
 export const VEHICLES: Vehicle[] = vehicleSeed.map((v, i) => ({

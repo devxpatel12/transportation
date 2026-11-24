@@ -7,8 +7,8 @@ import Link from "next/link"
 import { toast } from "sonner"
 import { Gauge, MapPin, ShieldCheck, Wrench } from "lucide-react"
 import { useStore } from "@/lib/store"
-import { ALL_STATES, SHIPPING_POINTS, VEHICLE_TYPES, fmtHour, inr, type Vehicle } from "@/lib/data"
-import { VEHICLE_PHOTO } from "@/lib/tracking"
+import { ALL_STATES, DEMO_TRACKING_HOUR, SHIPPING_POINTS, VEHICLE_TYPES, fmtHour, inr, type Vehicle } from "@/lib/data"
+import { buildLive, VEHICLE_PHOTO } from "@/lib/tracking"
 import { Tag, UtilBar } from "@/components/app/bits"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog"
@@ -25,6 +25,7 @@ export function VehicleDialog({ vehicle, onClose }: { vehicle: Vehicle | null; o
   const t = v ? VEHICLE_TYPES[v.type] : null
   const trip = v ? plan?.trips.find((x) => x.vehicleId === v.id) : undefined
   const sp = v ? SHIPPING_POINTS.find((s) => s.id === v.location) : undefined
+  const demoLocation = trip && sp && trip.stops.length ? buildLive(trip, ctx, sp, DEMO_TRACKING_HOUR) : undefined
   const stops = trip?.stops ?? []
   const routeCustomers = stops.map(s => ctx.customers[ctx.deliveries[s.deliveryId].customerId])
   const tone = v?.status === "Available" ? "green" : v?.status === "Assigned" ? "amber" : "red"
@@ -42,6 +43,7 @@ export function VehicleDialog({ vehicle, onClose }: { vehicle: Vehicle | null; o
                 <div className="rounded-xl border bg-card p-4"><div className="text-xs text-muted-foreground">Current plan assignment</div><div className="mt-2 text-lg font-semibold">{trip?.id ?? "Unallocated"}</div><div className="mt-2 text-xs text-muted-foreground">{trip ? `${Math.round(trip.distanceKm)} km · ${trip.stops.length} stops` : "No feasible allocation in this plan"}</div><div className="mt-4 border-t pt-3 text-sm"><div className="text-xs text-muted-foreground">Depot</div>{sp?.name ?? v.location}<div className="mt-2 text-xs text-muted-foreground">Ready from {fmtHour(v.availableFromH)}</div></div></div>
                 <Spec l="Planned departure" v={trip ? fmtHour(trip.startH) : "—"} />
                 <Spec l="Final planned stop" v={routeCustomers[routeCustomers.length - 1]?.city ?? "—"} />
+                <Spec l="Demo location" v={demoLocation ? <>{demoLocation.pos.lat.toFixed(4)}, {demoLocation.pos.lng.toFixed(4)}<div className="text-[11px] font-normal text-muted-foreground">{demoLocation.phase} · {fmtHour(DEMO_TRACKING_HOUR)}</div></> : sp ? <>{sp.name}<div className="text-[11px] font-normal text-muted-foreground">Home depot · not GPS</div></> : "Unknown"} />
               </div>
               <div className="relative min-w-0 overflow-hidden rounded-xl border bg-card" style={{ minHeight: 288, height: "100%" }}><Image src={VEHICLE_PHOTO[v.type].src} alt={`${VEHICLE_PHOTO[v.type].model} representative vehicle`} fill sizes="(min-width:1024px) 700px, 90vw" className="object-contain" /><span className="absolute bottom-2 left-2 rounded bg-background/90 px-2 py-1 text-[10px] text-muted-foreground">Representative vehicle image</span></div>
               <div className="space-y-3">

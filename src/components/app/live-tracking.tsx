@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react"
 import dynamic from "next/dynamic"
 import { MapPin, Pause, Play, Radio } from "lucide-react"
 import { useStore } from "@/lib/store"
-import { DISPATCH_HOUR, SHIPPING_POINTS, fmtHour } from "@/lib/data"
+import { DEMO_TRACKING_HOUR, DISPATCH_HOUR, SHIPPING_POINTS, fmtHour } from "@/lib/data"
 import { buildLive, VEHICLE_PHOTO, type LivePhase } from "@/lib/tracking"
 import { VehiclePhoto } from "@/components/app/vehicle-photo"
 import { Card } from "@/components/ui/card"
@@ -26,7 +26,7 @@ const MAX = 22
 
 export function LiveTracking() {
   const { plan, ctx, optimize } = useStore()
-  const [now, setNow] = useState(DISPATCH_HOUR + 3)
+  const [now, setNow] = useState(DEMO_TRACKING_HOUR)
   const [playing, setPlaying] = useState(true)
   const [sel, setSel] = useState<string | undefined>()
 
@@ -41,7 +41,7 @@ export function LiveTracking() {
     return (
       <Card className="mt-6 items-center gap-3 bg-gradient-to-br from-orange-600/20 via-zinc-950 to-zinc-950 py-12 text-center text-zinc-100 ring-zinc-800">
         <Radio className="size-6 text-orange-400" />
-        <div className="text-base font-semibold">Live fleet tracking</div>
+        <div className="text-base font-semibold">Simulated fleet tracking</div>
         <p className="max-w-sm text-sm text-zinc-400">Run the optimizer to put the planned trips on the map and follow each vehicle from depot to drop.</p>
         <Button onClick={() => optimize()}><Play /> Run optimization</Button>
       </Card>
@@ -55,7 +55,7 @@ export function LiveTracking() {
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-800 bg-gradient-to-r from-orange-600/25 via-zinc-950 to-zinc-950 px-4 py-3">
         <div className="flex items-center gap-3">
           <span className="relative flex size-2.5"><span className="absolute inline-flex size-full animate-ping rounded-full bg-orange-400 opacity-75" /><span className="relative inline-flex size-2.5 rounded-full bg-orange-500" /></span>
-          <div><div className="text-base font-semibold">Live fleet tracking</div><div className="text-xs text-zinc-400">Simulated from the draft plan · {active.length} of {live.length} trips on the road</div></div>
+          <div><div className="text-base font-semibold">Simulated fleet tracking</div><div className="text-xs text-zinc-400">Simulated from the draft plan · {active.length} of {live.length} trips on the road</div></div>
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex flex-wrap gap-1.5">{counts.filter(([, n]) => n > 0).map(([p, n]) => <span key={p} className={cn("rounded-full px-2 py-0.5 text-[11px] font-medium", PHASE_STYLE[p])}>{n} {p}</span>)}</div>

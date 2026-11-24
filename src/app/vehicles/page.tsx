@@ -22,12 +22,13 @@ export default function Vehicles() {
   const [sel, setSel] = useState<Vehicle | null>(null)
   const rows = vehicles.filter((v) => (own === "all" || v.ownership === own) && (sp === "all" || v.location === sp))
   const tripOf = (id: string) => plan?.trips.find((t) => t.vehicleId === id)?.id
+  const allocated = new Set(plan?.trips.map(t => t.vehicleId) ?? [])
   const avail = vehicles.filter((v) => v.status === "Available")
   return (
     <>
       <PageHeader photo="fleet" title="Vehicles & availability" desc="Sample fleet and editable availability. Rated and usable capacity are shown separately." />
       <div className="mb-4 grid gap-3 sm:grid-cols-4">
-        {[["Total", vehicles.length], ["Available", avail.length], ["Company available", avail.filter((v) => v.ownership === "Company").length], ["Market available", avail.filter((v) => v.ownership === "Market").length]].map(([l, n]) => (
+        {[["Total fleet", vehicles.length], ["Company fleet", vehicles.filter(v => v.ownership === "Company").length], ["Allocated in plan", allocated.size], ["Available, not allocated", avail.filter(v => !allocated.has(v.id)).length]].map(([l, n]) => (
           <div key={l} className="rounded-xl border p-4"><div className="text-xs text-muted-foreground">{l}</div><div className="mt-1 text-2xl font-semibold tabular-nums">{n}</div></div>
         ))}
       </div>
@@ -35,7 +36,7 @@ export default function Vehicles() {
         {(Object.keys(VEHICLE_TYPES) as (keyof typeof VEHICLE_TYPES)[]).map((k) => {
           const t = VEHICLE_TYPES[k]
           const all = vehicles.filter((v) => v.type === k)
-          const free = all.filter((v) => v.status === "Available").length
+          const free = all.filter((v) => v.status === "Available" && !allocated.has(v.id)).length
           return (
             <div key={k} className="group overflow-hidden rounded-xl border bg-card transition hover:-translate-y-0.5 hover:shadow-lg">
               <div className="relative">
@@ -66,7 +67,7 @@ export default function Vehicles() {
                   <TableCell><Tag tone={v.ownership === "Company" ? "blue" : "amber"}>{v.ownership}</Tag></TableCell>
                   <TableCell className="text-right text-xs tabular-nums">{t.ratedKg / 1000}T / {t.usableKg / 1000}T</TableCell>
                   <TableCell className="text-right text-xs tabular-nums">{t.volM3} m³</TableCell>
-                  <TableCell className="text-xs">{v.location}</TableCell>
+                  <TableCell className="text-xs">{v.location}<div className="text-[11px] text-muted-foreground">{SHIPPING_POINTS.find(s => s.id === v.location)?.name}</div></TableCell>
                   <TableCell className="text-xs">{fmtHour(v.availableFromH)}</TableCell>
                   <TableCell className="max-w-32 text-xs text-muted-foreground">{v.permitStates.length === 5 ? "All 5 states" : v.permitStates.map((s) => s.split(" ").map((w) => w[0]).join("")).join(", ")}</TableCell>
                   <TableCell><Tag tone={v.status === "Available" ? "green" : v.status === "Assigned" ? "amber" : "red"}>{v.status}</Tag>{v.statusNote && <div className="mt-0.5 max-w-44 text-[11px] text-muted-foreground">{v.statusNote}</div>}</TableCell>
